@@ -8,21 +8,28 @@ export default function App() {
 
     // Portion of code that constantly increases the time if the Stopwatch is running
     useEffect(() => {
+
         if (isRunning) {
-            setMilliseconds(totalMils+10);
-            // setTimeout(() => setMilliseconds(totalMils+10), 1);
+            let interval = setInterval(() => {
+                setMilliseconds(totalMils + 10);
+            }, 10);
+
+            return () => clearInterval(interval);
         }
+
     });
+
+    
+    // Function that toggles the running state of the stopwatch
+    function toggleRun() {
+        setRunning(!isRunning);
+    }
 
     // Function that resets the stopwatch time
     function resetTime() {
+        if (isRunning) {toggleRun();}
         setMilliseconds(0);
     } 
-
-    // Function that toggles the running state of the stopwatch
-    function toggleRun(): void {
-        setRunning(!isRunning);
-    }
 
     return(
         <div>
