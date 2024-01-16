@@ -1,5 +1,5 @@
-import React from 'react';
-import { getTime } from './App';
+import React, { useState, useEffect } from 'react'
+import StopWatchButton from './StopWatchButton'
 
 // Function that returns double digit string
 function TwoDigit(n: number) {
@@ -29,15 +29,66 @@ export function ConvertTime(totalMils: number) {
     return [hrsStr, minsStr, secsStr, milsStr];
 }
 
-export function StopWatch() {
+// Main, default function that returns the HTML and includes the useState hooks along with functions to modify them
+export default function StopWatch() {
+    // useState hooks
+    // lapList - List of laps
+    // totalMils - Total number of milliseconds
+    // isRunning - If stopwatch is running
+    const [lapList, addLap] = useState([]);
+    const [totalMils, setMilliseconds] = useState(0);
+    const [isRunning, setRunning] = useState(false);
     
-    const totalMils: number = getTime();
+    // Portion of code that constantly increases the time by 10 milliseconds if the Stopwatch is running
+    // Runs at interval of 10 milliseconds
+    useEffect(() => {
 
+        if (isRunning) {
+            let interval = setInterval(() => {
+                setMilliseconds(totalMils + 10);
+            }, 10);
+
+            return () => clearInterval(interval);
+        }
+
+    });
+
+    // Function that toggles the running state of the stopwatch
+    function ToggleRun() {
+        (isRunning && totalMils !== 0)? 
+            setRunning(false):
+            setRunning(true);
+    }
+
+    // Function that resets the stopwatch time
+    function ResetTime() {
+        if (isRunning) {ToggleRun();}
+        setMilliseconds(0);
+    } 
+
+
+    // Converting the time to double digit strings
     const [hrsStr, minsStr, secsStr, milsStr] = ConvertTime(totalMils);
+    const curTime = `${hrsStr}:${minsStr}:${secsStr}.${milsStr}`;
+
+    // Function that laps stopwatch time
+    function LapTime() {
+        addLap(lapList => [...lapList, curTime]);
+    } 
 
     return(
         <div>
-            <h1>{hrsStr}:{minsStr}:{secsStr}.{milsStr}</h1>
+            <h1>{curTime}</h1>
+
+            <StopWatchButton 
+            totalMils={totalMils} isRunning={isRunning}
+            ToggleRun={ToggleRun} ResetTime={ResetTime} LapTime={LapTime}/>
+
+            <ul data-testid="lap-list">
+                {lapList.map((lap, index) => (
+                    <li key={index}>{lap}</li>
+                ))}
+            </ul>
         </div>
     )
 }
