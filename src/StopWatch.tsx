@@ -1,11 +1,14 @@
 import React from 'react';
+import { getTime } from './App';
 
 // Function that returns double digit string
 function TwoDigit(n: number) {
     return n > 9 ? "" + n: "0" + n;
 }
 
-export default function StopWatch({totalMils}: {totalMils: number}) {
+// Function to convert total milliseconds to hours, minutes, etc.
+export function ConvertTime(totalMils: number) {
+
     // Hours, minutes and seconds found from the total seconds
     var hrs = Math.floor(totalMils / 3600000);
     var mins = Math.floor(totalMils / 60000 % 60);
@@ -23,10 +26,17 @@ export default function StopWatch({totalMils}: {totalMils: number}) {
     var secsStr = TwoDigit(secs);
     var milsStr = TwoDigit(mils);
 
+    return [hrsStr, minsStr, secsStr, milsStr];
+}
+
+export function StopWatch() {
+    
+    const totalMils: number = getTime();
+
+    const [hrsStr, minsStr, secsStr, milsStr] = ConvertTime(totalMils);
+
     return(
         <div>
-            <h2>Stopwatch - Dennis K</h2>
-
             <h1>{hrsStr}:{minsStr}:{secsStr}.{milsStr}</h1>
         </div>
     )
