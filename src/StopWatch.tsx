@@ -13,7 +13,6 @@ export function ConvertTime(totalMils: number) {
     var hrs = Math.floor(totalMils / 3600000);
     var mins = Math.floor(totalMils / 60000 % 60);
     var secs = Math.floor(totalMils / 1000 % 60);
-    var mils = Math.floor((totalMils % 1000) / 10);
 
     // Times converted to strings to make sure the values are double digits
     if (hrs < 25) {
@@ -24,9 +23,8 @@ export function ConvertTime(totalMils: number) {
 
     var minsStr = TwoDigit(mins);
     var secsStr = TwoDigit(secs);
-    var milsStr = TwoDigit(mils);
 
-    return [hrsStr, minsStr, secsStr, milsStr];
+    return [hrsStr, minsStr, secsStr];
 }
 
 // Main, default function that returns the HTML and includes the useState hooks along with functions to modify them
@@ -68,8 +66,8 @@ export default function StopWatch() {
 
 
     // Converting the time to double digit strings
-    const [hrsStr, minsStr, secsStr, milsStr] = ConvertTime(totalMils);
-    const curTime = `${hrsStr}:${minsStr}:${secsStr}.${milsStr}`;
+    const [hrsStr, minsStr, secsStr] = ConvertTime(totalMils);
+    const curTime = `${hrsStr}:${minsStr}:${secsStr}`;
 
     // Function that laps stopwatch time
     function LapTime() {
