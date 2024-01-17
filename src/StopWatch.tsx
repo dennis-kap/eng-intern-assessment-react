@@ -53,14 +53,14 @@ export default function StopWatch() {
 
     // Function that toggles the running state of the stopwatch
     function ToggleRun() {
-        (isRunning && totalMils !== 0)? 
-            setRunning(false):
-            setRunning(true);
+        (isRunning && totalMils !== 0)? setRunning(false): setRunning(true);
     }
 
     // Function that resets the stopwatch time
     function ResetTime() {
-        if (isRunning) {ToggleRun();}
+        if (isRunning) {
+            ToggleRun();
+        }
         setMilliseconds(0);
         changeLaps([]);
     } 
@@ -83,10 +83,12 @@ export default function StopWatch() {
             totalMils={totalMils} isRunning={isRunning}
             ToggleRun={ToggleRun} ResetTime={ResetTime} LapTime={LapTime}/>
 
-            <h3>Laps</h3>
+            <h5>{lapList.length > 0 ? "Laps" : ""}</h5>
+            {lapList.length > 0 ? <hr></hr> : <></>}
+
             <ul data-testid="lap-list">
                 {lapList.map((lap, index) => (
-                    <li key={index+1}>{lap}</li>
+                    <li>Lap {index+1}: <p>{lap}</p></li>
                 ))}
             </ul>
         </div>

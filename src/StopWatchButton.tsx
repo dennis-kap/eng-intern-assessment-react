@@ -8,11 +8,10 @@ export default function StopWatchButton({isRunning, totalMils, ToggleRun, ResetT
 
     // Function that handles user input to change stopwatch running state
     function RunHandler() {
-        console.log(hasRun);
         ToggleRun();
-        if (isRunning) {hasRun = true};
-        console.log(isRunning );
-        
+        if (isRunning) {
+            hasRun = true;
+        }
     }
 
     // Function that handles user input to reset stopwatch
@@ -26,12 +25,9 @@ export default function StopWatchButton({isRunning, totalMils, ToggleRun, ResetT
         LapTime();
     }
 
-    // Checks if Stopwatch can be reset
-    const canReset = isRunning && (totalMils !== 0);
-
     return (
         <div>
-        <button onClick={RunHandler}>
+        <button onClick={RunHandler} className={isRunning ? 'stop-btn' : 'start-btn'}>
             {isRunning ? 'Stop' : 'Start'}
         </button>
 
@@ -39,7 +35,7 @@ export default function StopWatchButton({isRunning, totalMils, ToggleRun, ResetT
             Reset
         </button>
 
-        <button onClick={LapHandler} disabled={!isRunning}>
+        <button onClick={LapHandler} className='lap-btn' disabled={!isRunning}>
             Lap
         </button>
         </div>
