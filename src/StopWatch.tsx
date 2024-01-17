@@ -33,7 +33,7 @@ export default function StopWatch() {
     // lapList - List of laps
     // totalMils - Total number of milliseconds
     // isRunning - If stopwatch is running
-    const [lapList, addLap] = useState([]);
+    const [lapList, changeLaps] = useState([]);
     const [totalMils, setMilliseconds] = useState(0);
     const [isRunning, setRunning] = useState(false);
     
@@ -62,6 +62,7 @@ export default function StopWatch() {
     function ResetTime() {
         if (isRunning) {ToggleRun();}
         setMilliseconds(0);
+        changeLaps([]);
     } 
 
 
@@ -71,7 +72,7 @@ export default function StopWatch() {
 
     // Function that laps stopwatch time
     function LapTime() {
-        addLap(lapList => [...lapList, curTime]);
+        changeLaps(lapList => [...lapList, curTime]);
     } 
 
     return(
@@ -82,9 +83,10 @@ export default function StopWatch() {
             totalMils={totalMils} isRunning={isRunning}
             ToggleRun={ToggleRun} ResetTime={ResetTime} LapTime={LapTime}/>
 
+            <h3>Laps</h3>
             <ul data-testid="lap-list">
                 {lapList.map((lap, index) => (
-                    <li key={index}>{lap}</li>
+                    <li key={index+1}>{lap}</li>
                 ))}
             </ul>
         </div>

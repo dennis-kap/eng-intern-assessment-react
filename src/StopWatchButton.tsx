@@ -35,7 +35,7 @@ export default function StopWatchButton({isRunning, totalMils, ToggleRun, ResetT
             {isRunning ? 'Stop' : 'Start'}
         </button>
 
-        <button onClick={ResetHandler} disabled={canReset}>
+        <button onClick={ResetHandler}>
             Reset
         </button>
 
